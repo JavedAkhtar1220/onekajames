@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <!-- Bootstrap Link -->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+        <!-- Custom Css -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body onload="getData()">
+        <div id="loader">
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <h1 class="text-center">Records</h1>
+            <div class="text-end">
+                <a href="./admin.html" class="btn btn-primary">Search Data</a>
+                <a href="./index.html" class="btn btn-primary">Insert Data</a>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+            <div class="d-flex justify-content-end mt-5">
+                <div>
+                    <img
+                        src="./assests/filter-solid.svg"
+                        alt="filter"
+                        width="30px"
+                        height="30px"
+                    >
+                </div>
+                <div class="ms-4">
+                    <select class="form-select" id="filterBank" onchange="bankFilter()">
+                        <option selected value="all">
+                            All
+                        </option>
+                        <option value="CBQ">CBQ</option>
+                        <option value="ABQ">ABQ</option>
+                        <option value="QIB">QIB</option>
+                        <option value="QIIB">QIIB</option>
+                        <option value="DOHA">DOHA</option>
+                        <option value="UBL">UBL</option>
+                        <option value="OOREDOO">OOREDOO</option>
+                        <option value="MAR">MAR</option>
+                        <option value="DUKHAN">DUKHAN</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive mt-3">
+                <table class="table caption-top table-striped table-hover">
+                    <caption>List of Record</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ATM No</th>
+                            <th scope="col">Bank</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Cassettes</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="javascript:void(0)">
+                            <div class="mb-3">
+                                <label for="typecassettes" class="small fw-bold
+                                mb-2">Select Bank</label>
+                                <select class="form-select" id="bank">
+                                    <option selected disabled value="">
+                                        Select Bank
+                                    </option>
+                                    <option value="CBQ">CBQ</option>
+                                    <option value="ABQ">ABQ</option>
+                                    <option value="QIB">QIB</option>
+                                    <option value="QIIB">QIIB</option>
+                                    <option value="DOHA">DOHA</option>
+                                    <option value="UBL">UBL</option>
+                                    <option value="OOREDOO">OOREDOO</option>
+                                    <option value="MAR">MAR</option>
+                                    <option value="DUKHAN">DUKHAN</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="small fw-bold mb-2">
+                                    Location
+                                </label>
+                                <input type="text" id="locations">
+                            </div>
+                            <div class="mb-3">
+                                <label for="vendor" class="small fw-bold
+                                    mb-2">Vendor</label>
+                                <select class="form-select" id="vendor">
+                                    <option selected disabled value="">
+                                        Select
+                                        Vendor
+                                    </option>
+                                    <option value="NCR">NCR</option>
+                                    <option value="Wincor">Wincor</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="model" class="small fw-bold
+                                    mb-2">Model</label>
+                                <input type="text" id="model">
+                            </div>
+                            <div class="mb-3">
+                                <label for="serial" class="small fw-bold
+                                    mb-2">Serial</label>
+                                <input type="text" id="serial">
+                            </div>
+                            <div class="mb-3">
+                                <label for="gate" class="small fw-bold
+                                mb-2">Upload Gate Pass</label>
+                                <input
+                                    class="form-control"
+                                    type="file"
+                                    id="gatePass"
+                                    accept="image/png, image/gif, image/jpeg"
+                                >
+                            </div>
+                            <div class="mb-3">
+                                <label for="type" class="small fw-bold
+                                mb-2">Type</label>
+                                <select class="form-select" id="type">
+                                    <option selected disabled value="">
+                                        Select
+                                    Alarm
+                                    </option>
+                                    <option value="front loading">Front loading</option>
+                                    <option value="back loading">Back Loading</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="alarm" class="small fw-bold
+                                mb-2">Door Alarm</label>
+                                <select class="form-select" id="alarm">
+                                    <option selected disabled value="">
+                                        Select
+                                    Door Alarm
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="moi" class="small fw-bold
+                                    mb-2">Connected MOI</label>
+                                <select class="form-select" id="moi">
+                                    <option selected disabled value="">
+                                        Select
+                                        Connected MOI
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cassettes" class="small fw-bold
+                                        mb-2">Cassettes</label>
+                                <input
+                                    type="number"
+                                    id="cassettes"
+                                    maxlength="1"
+                                    onkeypress="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                >
+                            </div>
+                            <div class="mb-3">
+                                <label for="cctv" class="small fw-bold
+                                    mb-2">ATM CCTV</label>
+                                <select class="form-select" id="cctv">
+                                    <option selected disabled value="">
+                                        Select
+                                        CCTV
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cencornLock" class="small fw-bold
+                                    mb-2">Lock</label>
+                                <select class="form-select" id="cencornLock">
+                                    <option selected disabled value="">
+                                        Select Lock
+                                    </option>
+                                    <option value="cencon">Cencon Lock</option>
+                                    <option value="combination">Combination</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="opening" class="small fw-bold
+                                    mb-2">Installation Date</label>
+                                <input type="date" id="opening">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sinCom" class="small fw-bold
+                                        mb-2">ATM type</label>
+                                <select class="form-select" id="sinCom">
+                                    <option selected disabled value="">
+                                        Select
+                                        ATM type
+                                    </option>
+                                    <option value="single">Single</option>
+                                    <option value="combo">Combo</option>
+                                    <option value="standalone">Standalone</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="openingTime" class="small fw-bold
+                                    mb-2">Opening Time</label>
+                                <input type="time" id="openingTime">
+                            </div>
+                            <div class="mb-3">
+                                <label for="closingTime" class="small fw-bold
+                                    mb-2">Closing Time</label>
+                                <input type="time" id="closingTime">
+                            </div>
+                            <div class="mb-3">
+                                <label for="remark" class="small fw-bold
+                                    mb-2">Remarks</label>
+                                <input type="text" id="remarks">
+                            </div>
+                            <div class="mb-3">
+                                <label for="remark" class="small fw-bold
+                                    mb-2">Alarm Code</label>
+                                <input type="text" id="alarmCode">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            id="saveChanges"
+                            onclick="updateRecord()"
+                        >Update Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap js Link -->
+        <script src="vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Sweet Alert CDN -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- Firebase Scripts-->
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-storage.js"></script>
+        <!-- Custom Css -->
+        <script src="js/firebase.js"></script>
+        <script src="js/dashboard.js"></script>
+    </body>
+</html>

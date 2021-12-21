@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ATM Solution</title>
+        <!-- Bootstrap Link -->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+        <!-- Custom Css -->
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body onload="getData()">
+        <div class="row my-5">
+            <div class="col-lg-8 col-md-8 col-sm-10 col-10 mx-auto shadow-lg
+                border bg-white" style="border-radius: 20px;">
+                <div class="container my-5">
+                    <div class="text-end">
+                        <a href="./login.html" class="btn btn-primary">Dashboard</a>
+                    </div>
+                    <h1 class="h3 mt-4 text-center">ATM SOLUTION</h1>
+                    <form action="javascript:void(0)" class="mt-5" onsubmit="addData()">
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="atm number" class="small fw-bold mb-2">
+                                    ATM ID
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter ATM ID"
+                                    maxlength="9"
+                                    id="atmNo"
+                                    oninput="atmNoValidation()"
+                                    autocomplete="off"
+                                >
+                                <span class="error" id="atmNo-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <label for="typecassettes" class="small fw-bold
+                                mb-2">Select Bank</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                        select example"
+                                    id="bank"
+                                    onchange="bankValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select Bank
+                                    </option>
+                                    <option value="CBQ">CBQ</option>
+                                    <option value="ABQ">ABQ</option>
+                                    <option value="QIB">QIB</option>
+                                    <option value="QIIB">QIIB</option>
+                                    <option value="DOHA">DOHA</option>
+                                    <option value="UBL">UBL</option>
+                                    <option value="OOREDOO">OOREDOO</option>
+                                    <option value="MAR">MAR</option>
+                                    <option value="DUKHAN">DUKHAN</option>
+                                </select>
+                                <span class="error" id="bank-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="small fw-bold mb-2">
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                id="location"
+                                oninput="locationValidation()"
+                                placeholder="Enter Location"
+                            >
+                            <span class="error" id="location-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vendor" class="small fw-bold
+                                mb-2">Vendor</label>
+                            <select
+                                class="form-select"
+                                aria-label="Default
+                                select example"
+                                id="vendor"
+                                onchange="vendorValidation()"
+                            >
+                                <option selected disabled value="">
+                                    Select
+                                    Vendor
+                                </option>
+                                <option value="NCR">NCR</option>
+                                <option value="Wincor">Wincor</option>
+                            </select>
+                            <span class="error" id="vendor-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="model" class="small fw-bold
+                                mb-2">Model</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Model Number"
+                                id="model"
+                                oninput="modelValidation()"
+                            >
+                            <span class="error" id="model-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="serial" class="small fw-bold
+                                mb-2">Serial</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Serial Number"
+                                id="serial"
+                                oninput="serialValidation()"
+                            >
+                            <span class="error" id="serial-error"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12
+                                mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="type" class="small fw-bold
+                                    mb-2">Type</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="type"
+                                    onchange="typeValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select
+                                        Alarm Detail
+                                    </option>
+                                    <option value="front loading">Front loading</option>
+                                    <option value="back loading">Back Loading</option>
+                                </select>
+                                <span class="error" id="type-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <label for="alarm" class="small fw-bold
+                                    mb-2">Door Alarm</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="alarm"
+                                    onchange="alarmValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select
+                                        Door Alarm
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="error" id="alarm-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="moi" class="small fw-bold
+                                    mb-2">Connected MOI</label>
+                            <select
+                                class="form-select"
+                                aria-label="Default
+                                    select example"
+                                id="moi"
+                                onchange="moiValidation()"
+                            >
+                                <option selected disabled value="">
+                                    Select
+                                        Connected MOI
+                                </option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            <span class="error" id="moi-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cassettes" class="small fw-bold
+                                    mb-2">Cassettes</label>
+                            <input
+                                type="number"
+                                id="cassettes"
+                                maxlength="1"
+                                onkeypress="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                oninput="cassettesValidation()"
+                                placeholder="Enter Number of cassettes"
+                            >
+                            <span class="error" id="cassettes-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="typecassettes" class="small fw-bold
+                                mb-2">Type Of Cassettes</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    name="checkbox1"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="checkbox50"
+                                    onchange="handleCheck()"
+                                >
+                                <label class="form-check-label ms-2" for="50">50</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    name="checkbox2"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="checkbox100"
+                                    onchange="handleCheck()"
+                                >
+                                <label class="form-check-label ms-2" for="100">100</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    name="checkbox3"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="checkbox200"
+                                    onchange="handleCheck()"
+                                >
+                                <label class="form-check-label ms-2" for="200">200</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input
+                                    name="checkbox4"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="checkbox500"
+                                    onchange="handleCheck()"
+                                >
+                                <label class="form-check-label ms-2" for="500">500</label>
+                            </div>
+                            <span class="error" id="typeCassettes-error"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12
+                                mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="cctv" class="small fw-bold
+                                    mb-2">ATM CCTV</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="cctv"
+                                    onchange="cctvValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select
+                                        CCTV
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="error" id="cctv-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                <label for="cencornLock" class="small fw-bold
+                                    mb-2">Lock</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="cencornLock"
+                                    onchange="cencornLockValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select Lock
+                                    </option>
+                                    <option value="cencon">Cencon Lock</option>
+                                    <option value="combination">Combination</option>
+                                </select>
+                                <span class="error" id="cencornLock-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="opening" class="small fw-bold
+                                mb-2">Installation Date</label>
+                            <input type="date" id="opening" onchange="openingDateValidation()">
+                            <span class="error" id="opening-error"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="cencornLock" class="small fw-bold
+                                    mb-2">Gate Pass</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="gatePass"
+                                    onchange="gatePassValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select Gate Pass
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="error" id="gatePass-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-none" id="gatePassContainer">
+                                <label for="gate" class="small fw-bold
+                                mb-2">Upload Gate Pass</label>
+                                <input
+                                    class="form-control"
+                                    type="file"
+                                    id="uploadGatePass"
+                                    accept="image/png, image/gif, image/jpeg"
+                                    onchange="uploadGatePassValidation()"
+                                >
+                                <span class="error" id="uploadGatePass-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sinCom" class="small fw-bold
+                                    mb-2">ATM type</label>
+                            <select
+                                class="form-select"
+                                aria-label="Default
+                                    select example"
+                                id="sinCom"
+                                onchange="sinComValidation()"
+                            >
+                                <option selected disabled value="">
+                                    Select
+                                    ATM type
+                                </option>
+                                <option value="single">Single</option>
+                                <option value="combo">Combo</option>
+                                <option value="standalone">Standalone</option>
+                            </select>
+                            <span class="error" id="sinCom-error"></span>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12
+                                mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="openingTime" class="small fw-bold
+                                    mb-2">Opening Time</label>
+                                <input type="time" id="openingTime" onchange="openingTimeValidation()">
+                                <span class="error" id="openingTime-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12
+                                mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="closingTime" class="small fw-bold
+                                    mb-2">Closing Time</label>
+                                <input type="time" id="closingTime" onchange="closingTimeValidation()">
+                                <span class="error" id="closingTime-error"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-lg-0 mb-md-0 mb-sm-3 mb-3">
+                                <label for="key" class="small fw-bold
+                                mb-2">Key</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="key"
+                                    onchange="keyValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select Key
+                                    </option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <span class="error" id="key-error"></span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-none" id="keyContainer">
+                                <label for="key" class="small fw-bold
+                                mb-2">Type of Key</label>
+                                <select
+                                    class="form-select"
+                                    aria-label="Default
+                                    select example"
+                                    id="keyType"
+                                    onchange="keyTypeValidation()"
+                                >
+                                    <option selected disabled value="">
+                                        Select Type Key
+                                    </option>
+                                    <option value="master">Master Key</option>
+                                    <option value="safe">Safe Key</option>
+                                    <option value="handler">Handler Key</option>
+                                    <option value="golden">Golden  Key</option>
+                                </select>
+                                <span class="error" id="keyType-error"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="remark" class="small fw-bold
+                                mb-2">Remarks</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Remarks"
+                                id="remarks"
+                                oninput="remarksValidation()"
+                            >
+                            <span class="error" id="remarks-error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="remark" class="small fw-bold
+                                mb-2">Alarm Code</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Alarm Code 4 digits"
+                                id="alarmCode"
+                                oninput="alarmCodeValidation()"
+                            >
+                            <span class="error" id="alarmCode-error"></span>
+                        </div>
+                        <button class="btn btn-primary w-100" id="btn-submit" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <!-- <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <label for="AlarmType" class="small fw-bold mb-2">Alarm Type</label>
+                        <select class="form-select" id="alarmType" onchange="keyTypeValidation()">
+                            <option selected disabled value="">
+                                Select Alarm Type
+                            </option>
+                            <option value="master">Master Key</option>
+                            <option value="safe">Safe Key</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Bootstrap js Link -->
+        <script src="vendor/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Sweet Alert CDN -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <!-- Firebase Scripts-->
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-storage.js"></script>
+        <!-- Custom Css -->
+        <script src="js/firebase.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
